@@ -27,7 +27,6 @@ packages=(
   zsh
   yarn
   stow
-  libfido2
 )
 
 aur_packages=(
@@ -54,6 +53,7 @@ echo "Cloning github repo..."
 git clone "https://github.com/NotNoss/Anarchy-Dots.git" "$HOME/.config/anarchy/dots"
 
 echo "Creating symlinks..."
-stow -t "$HOME" -d "$HOME/.config/anarchy/dots/"
+cd "$HOME/.config/anarchy/dots"
+stow -t "$HOME" .
 
 echo "Done. Everything should be setup now"
