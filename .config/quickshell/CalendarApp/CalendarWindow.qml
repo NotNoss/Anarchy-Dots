@@ -1,0 +1,407 @@
+import Quickshell
+import Quickshell.Wayland
+import Quickshell.Hyprland
+import Quickshell.Io
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls
+import QtQuick.Effects
+import qs.Theme
+
+PanelWindow {
+    id: root
+    
+    // --- WAYLAND CONFIGURATION ---
+    WlrLayershell.layer: WlrLayer.Overlay
+    WlrLayershell.namespace: "quickshell-blur"
+    exclusionMode: WlrLayershell.Ignore
+    
+    implicitWidth: 430
+    implicitHeight: 380
+    color: "transparent"
+
+    // Anchored to the top, horizontally centered (no left/right anchor).
+    anchors {
+        top: true
+    }
+
+    // --- CLICK OUTSIDE TO CLOSE (Native Hyprland) ---
+    HyprlandFocusGrab {
+        windows: [root]
+        active: root.isOpen && root.showWindow // <-- Updated this line
+        onCleared: {
+            if (root.isOpen) {
+                CalendarState.isOpen = false
+            }
+        }
+    }
+
+    // --- KEYBOARD SHORTCUTS (active while open) ---
+    Shortcut { sequence: "q"; enabled: root.isOpen; onActivated: CalendarState.isOpen = false }
+    Shortcut { sequence: "h"; enabled: root.isOpen; onActivated: prevMonth() }
+    Shortcut { sequence: "l"; enabled: root.isOpen; onActivated: nextMonth() }
+    Shortcut { sequence: "t"; enabled: root.isOpen; onActivated: goToToday() }
+
+    // --- ANIMATION LOGIC (Vertical Slide + Wayland Fix) ---
+    property bool isOpen: CalendarState.isOpen
+    
+    // Guard variable to prevent Wayland from unmapping the window too early
+    property bool showWindow: false
+    visible: showWindow
+    
+    // Map the window immediately when opened
+    onIsOpenChanged: {
+        if (isOpen) {
+            showWindow = true
+            
+            // Auto-refresh "Today" if the date changed while Quickshell was running
+            let now = new Date();
+            if (now.getDate() !== todayDate || now.getMonth() !== todayMonth) {
+                todayDate = now.getDate()
+                todayMonth = now.getMonth()
+                todayYear = now.getFullYear()
+                
+                currentMonth = todayMonth
+                currentYear = todayYear
+                updateCalendar(currentYear, currentMonth)
+            }
+        }
+    }
+    
+    // Animate between your specific 87px top margin and off-screen (-800)
+    property real currentTopMargin: isOpen ? 67 : -820 
+
+    margins {
+        top: root.currentTopMargin
+    }
+
+    Behavior on currentTopMargin {
+        NumberAnimation {
+            id: slideAnim
+            duration: 350
+            easing.type: Easing.OutQuint 
+            
+            // Unmap the window ONLY after the hide animation completely finishes
+            onRunningChanged: {
+                if (!running && !root.isOpen) {
+                    root.showWindow = false
+                }
+            }
+        }
+    }
+
+    IpcHandler {
+        target: "calendar"
+        function toggle(): void { CalendarState.isOpen = !CalendarState.isOpen }
+        function open(): void { CalendarState.isOpen = true }
+        function close(): void { CalendarState.isOpen = false }
+        function isOpen(): bool { return CalendarState.isOpen }
+    }
+
+    // --- REUSABLE COMPONENTS ---
+    component ActionIcon: Button {
+        property string iconTxt: ""
+        property string iconSrc: ""
+        implicitWidth: 28
+        implicitHeight: 28
+        background: Rectangle { color: "transparent" }
+        contentItem: Item {
+            Text {
+                anchors.centerIn: parent
+                text: iconTxt
+                visible: iconSrc === ""
+                color: Theme.primary
+                font.family: Theme.iconFontFamily
+                font.pixelSize: 18
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+            }
+            Image {
+                anchors.centerIn: parent
+                source: iconSrc
+                width: 18
+                height: 18
+                sourceSize.width: 18
+                sourceSize.height: 18
+                visible: iconSrc !== ""
+                fillMode: Image.PreserveAspectFit
+                layer.enabled: iconSrc !== ""
+                layer.effect: MultiEffect {
+                    colorization: 1.0
+                    colorizationColor: Theme.primary
+                }
+            }
+        }
+    }
+
+    component ML4WButton: Button {
+        background: Rectangle {
+            color: "transparent"
+            radius: 8
+
+            GradientBorder {
+                radius: parent.radius
+                borderWidth: 1
+            }
+        }
+        contentItem: Text {
+            text: parent.text
+            font.family: Theme.fontFamily
+            font.pixelSize: 12
+            color: Theme.primary
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            padding: 4
+            leftPadding: 10
+            rightPadding: 10
+        }
+    }
+
+    // --- CALENDAR LOGIC & DATA ---
+    property var monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    property var dayNames: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"]
+
+    property int currentMonth: new Date().getMonth()
+    property int currentYear: new Date().getFullYear()
+    
+    property int todayDate: new Date().getDate()
+    property int todayMonth: new Date().getMonth()
+    property int todayYear: new Date().getFullYear()
+
+    ListModel { id: dayModel }
+    ListModel { id: weekModel }
+
+    TextMetrics {
+        id: monthLabelMetrics
+        font.family: Theme.fontFamily
+        font.pixelSize: 18
+        font.bold: true
+        text: "September 2026"   // widest month name + 4-digit year
+    }
+
+    Component.onCompleted: updateCalendar(currentYear, currentMonth)
+
+    function prevMonth() {
+        if (currentMonth === 0) {
+            currentMonth = 11;
+            currentYear--;
+        } else {
+            currentMonth--;
+        }
+        updateCalendar(currentYear, currentMonth);
+    }
+
+    function nextMonth() {
+        if (currentMonth === 11) {
+            currentMonth = 0;
+            currentYear++;
+        } else {
+            currentMonth++;
+        }
+        updateCalendar(currentYear, currentMonth);
+    }
+
+    function goToToday() {
+        currentMonth = todayMonth;
+        currentYear = todayYear;
+        updateCalendar(currentYear, currentMonth);
+    }
+
+    function updateCalendar(year, month) {
+        dayModel.clear()
+        weekModel.clear()
+
+        let firstDay = new Date(year, month, 1)
+        let startingDayOfWeek = firstDay.getDay() 
+        let startCell = startingDayOfWeek === 0 ? 6 : startingDayOfWeek - 1
+
+        let daysInMonth = new Date(year, month + 1, 0).getDate()
+        let daysInPrevMonth = new Date(year, month, 0).getDate()
+
+        for (let row = 0; row < 6; row++) {
+            let dateInRow = new Date(year, month, 1 + (row * 7) - startCell)
+            let d = new Date(Date.UTC(dateInRow.getFullYear(), dateInRow.getMonth(), dateInRow.getDate()));
+            d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay()||7));
+            let yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
+            let weekNo = Math.ceil(( ( (d - yearStart) / 86400000) + 1)/7);
+            
+            weekModel.append({ weekNumber: weekNo })
+        }
+
+        for (let i = 0; i < 42; i++) {
+            if (i < startCell) {
+                dayModel.append({ day: daysInPrevMonth - startCell + i + 1, isCurrentMonth: false, isToday: false })
+            } else if (i >= startCell && i < startCell + daysInMonth) {
+                let dayNum = i - startCell + 1
+                let isTod = (dayNum === todayDate && month === todayMonth && year === todayYear)
+                dayModel.append({ day: dayNum, isCurrentMonth: true, isToday: isTod })
+            } else {
+                dayModel.append({ day: i - startCell - daysInMonth + 1, isCurrentMonth: false, isToday: false })
+            }
+        }
+    }
+
+    // ==========================================
+    // MAIN PANEL BACKGROUND
+    // ==========================================
+    Item {
+        anchors.fill: parent
+        anchors.margins: 20
+
+        Rectangle {
+            id: mainBgRect
+            anchors.fill: parent
+            radius: 10
+            color: Qt.rgba(Theme.background.r, Theme.background.g, Theme.background.b, 0.72)
+
+            GradientBorder {
+                radius: parent.radius
+                borderWidth: 2
+            }
+        }
+
+        ColumnLayout {
+            anchors.fill: parent
+            anchors.margins: 20
+            spacing: 15
+
+            // --- HEADER: MONTH NAVIGATION & TODAY BUTTON ---
+            RowLayout {
+                Layout.fillWidth: true
+                Layout.preferredHeight: 30
+                spacing: 8
+
+                Item { Layout.fillWidth: true }          // left flex
+
+                ActionIcon {
+                    iconTxt: "chevron_left"
+                    onClicked: prevMonth()
+                }
+
+                Text {
+                    Layout.preferredWidth: Math.ceil(monthLabelMetrics.width) + 4
+                    Layout.alignment: Qt.AlignVCenter
+                    elide: Text.ElideNone
+                    text: monthNames[currentMonth] + " " + currentYear
+                    color: Theme.primary
+                    font.family: Theme.fontFamily
+                    font.pixelSize: 18
+                    font.bold: true
+                    horizontalAlignment: Text.AlignHCenter
+                }
+
+                ActionIcon {
+                    iconTxt: "chevron_right"
+                    onClicked: nextMonth()
+                }
+
+                Item { Layout.fillWidth: true }          // right flex
+
+                ML4WButton {
+                    text: "Today"
+
+                    opacity: (currentMonth !== todayMonth || currentYear !== todayYear) ? 1.0 : 0.0
+                    enabled: opacity > 0
+
+                    Behavior on opacity { NumberAnimation { duration: 250; easing.type: Easing.InOutQuad } }
+
+                    onClicked: goToToday()
+                }
+            }
+
+            Rectangle { Layout.fillWidth: true; implicitHeight: 1; color: Theme.primary; opacity: 0.3 }
+
+            // --- CALENDAR BODY ---
+            RowLayout {
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                spacing: 15
+
+                ColumnLayout {
+                    Layout.fillHeight: true
+                    spacing: 5
+                    
+                    Text {
+                        Layout.fillWidth: true
+                        text: "Wk"
+                        color: Theme.on_background
+                        opacity: 0.5
+                        font.family: Theme.fontFamily
+                        font.pixelSize: 13
+                        font.bold: true
+                        horizontalAlignment: Text.AlignHCenter
+                        Layout.bottomMargin: 5
+                    }
+
+                    Repeater {
+                        model: weekModel
+                        Text {
+                            Layout.fillWidth: true
+                            Layout.fillHeight: true
+                            text: model.weekNumber
+                            color: Theme.primary
+                            opacity: 0.7
+                            font.family: Theme.fontFamily
+                            font.pixelSize: 13
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                        }
+                    }
+                }
+
+                Rectangle { Layout.fillHeight: true; implicitWidth: 1; color: Theme.primary; opacity: 0.3 }
+
+                ColumnLayout {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    spacing: 5
+
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Repeater {
+                            model: root.dayNames
+                            Text {
+                                Layout.fillWidth: true
+                                text: modelData
+                                color: Theme.primary
+                                font.family: Theme.fontFamily
+                                font.pixelSize: 14
+                                font.bold: true
+                                horizontalAlignment: Text.AlignHCenter
+                            }
+                        }
+                    }
+
+                    GridLayout {
+                        columns: 7
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        rowSpacing: 5
+                        columnSpacing: 5
+                        
+                        Repeater {
+                            model: dayModel
+                            
+                            Rectangle {
+                                Layout.fillWidth: true
+                                Layout.fillHeight: true
+                                radius: width / 2 
+                                color: model.isToday ? Theme.primary : "transparent"
+                                
+                                Text {
+                                    anchors.centerIn: parent
+                                    text: model.day
+                                    font.family: Theme.fontFamily
+                                    font.pixelSize: 14
+                                    font.bold: model.isToday
+                                    color: model.isToday ? Theme.background : Theme.on_background
+                                    opacity: (model.isCurrentMonth || model.isToday) ? 1.0 : 0.3
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
