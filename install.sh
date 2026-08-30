@@ -51,7 +51,7 @@ echo "Creating dotfiles directories..."
 mkdir -p "$HOME/.config/anarchy/.cache/"
 
 echo "Cloning github repo..."
-git clone "git@github.com:NotNoss/Anarchy-Dots.git" "$HOME/.config/anarchy/dots"
+git clone "https://github.com/NotNoss/Anarchy-Dots.git" "$HOME/.config/anarchy/dots"
 
 echo "Creating symlinks..."
 stow -t "$HOME" -d "$HOME/.config/anarchy/dots/"
