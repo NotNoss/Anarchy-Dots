@@ -60,13 +60,17 @@ echo "Creating dotfiles directories..."
 mkdir -p "$HOME/.config/anarchy/.cache/"
 
 echo "Cloning github repo..."
-git clone https://github.com/NotNoss/Anarchy-Dots.git $HOME/.config/anarchy/dots
+cd "$HOME/.config/anarchy/"
+git clone https://github.com/NotNoss/Anarchy-Dots.git ./dots
 
 echo "Creating symlinks..."
 cd "$HOME/.config/anarchy/dots/home/"
-stow -t $HOME .
+stow -t "$HOME" .
 
-echo "Enabling SDDM..."
-sudo systemctl enable --now sddm
+cd "$HOME"
+
+echo "Setting shell and changing wallpaper"
+chsh -s $(which zsh)
+"$HOME/.config/quickshell/scripts/change-wallpaper.sh" "$HOME/.config/anarchy/Wallpapers/montagna.png"
 
 echo "Done. Everything should be setup now"
