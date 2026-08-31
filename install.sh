@@ -30,6 +30,7 @@ packages=(
   sddm
   git
   base-devel
+  fzf
 )
 
 aur_packages=(
@@ -76,13 +77,15 @@ echo "Installing fonts..."
 sudo cp "$HOME/.config/anarchy/dots/fonts/*" /usr/share/fonts/
 fc-cache -f -v
 
+echo "Setting wallpaper..."
+awww img "$HOME/.config/anarchy/Wallpapers/montagna.png"
+
 echo "Setting up SDDM..."
 sudo cp "$HOME/.config/anarchy/Wallpapers/montagna.png" /usr/share/sddm/themes/silent/backgrounds/
 sudo sed -i "s/smoky.jpg/montagna.png/g" /usr/share/sddm/themes/silent/configs/default.conf
 /usr/share/sddm/themes/silent/change_avatar.sh "$HOME/.config/anarchy/Anarchy-Logo.png"
+sudo cp "$HOME/.config/anarchy/sddm.conf" /etc/
 
 sudo systemctl enable sddm --now
-
-awww img "$HOME/.config/anarchy/Wallpapers/montagna.png"
 
 echo "Done. Everything should be setup now"
