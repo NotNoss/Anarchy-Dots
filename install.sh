@@ -83,4 +83,6 @@ sudo sed -i "s/smoky.jpg/montagna.png/g" /usr/share/sddm/themes/silent/configs/d
 
 sudo systemctl enable sddm --now
 
+awww img "$HOME/.config/anarchy/Wallpapers/montagna.png"
+
 echo "Done. Everything should be setup now"
