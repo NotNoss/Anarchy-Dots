@@ -60,11 +60,11 @@ echo "Creating dotfiles directories..."
 mkdir -p "$HOME/.config/anarchy/.cache/"
 
 echo "Cloning github repo..."
-git clone "https://github.com/NotNoss/Anarchy-Dots.git" "$HOME/.config/anarchy/dots"
+git clone https://github.com/NotNoss/Anarchy-Dots.git $HOME/.config/anarchy/dots
 
 echo "Creating symlinks..."
 cd "$HOME/.config/anarchy/dots/home/"
-stow -t "$HOME" .
+stow -t $HOME .
 
 echo "Enabling SDDM..."
 sudo systemctl enable --now sddm
