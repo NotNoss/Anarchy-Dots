@@ -28,6 +28,8 @@ packages=(
   yarn
   stow
   sddm
+  git
+  base-devel
 )
 
 aur_packages=(
@@ -40,6 +42,12 @@ if [[ $EUID -eq 0 ]]; then
   echo "Please run the script as a normal user. The install script will call sudo when needed." >&2
   exit 1
 fi
+
+echo "Installing yay..."
+git clone https://aur.archlinux.org/yay.git
+cd ~/yay
+makepkg -si
+rm -rf ~/yay
 
 echo "Synchronizing package databases..."
 yay -Sy
@@ -57,10 +65,6 @@ git clone "https://github.com/NotNoss/Anarchy-Dots.git" "$HOME/.config/anarchy/d
 echo "Creating symlinks..."
 cd "$HOME/.config/anarchy/dots/home/"
 stow -t "$HOME" .
-
-cd "$HOME/.config/anarchy/dots/etc/"
-sudo stow -t "/etc/" .
-/usr/share/sddm/themes/silent/change_avatar.sh "$USER" "$HOME/.config/anarchy/dots/Anarchy-Logo.png"
 
 echo "Enabling SDDM..."
 sudo systemctl enable --now sddm
