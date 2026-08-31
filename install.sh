@@ -77,20 +77,6 @@ echo "Installing fonts..."
 sudo cp "$HOME/.config/anarchy/dots/fonts/*" /usr/share/fonts/
 fc-cache -f -v
 
-echo "Setting wallpaper..."
-awww-daemon
-local max=300 count=0
-until awww query >/dev/null 2>&1; do
-  ((count++))
-  if ((count >= max)); then
-    error "awww-daemon did not start within 30s"
-    exit 1
-  fi
-  sleep 0.1
-done
-awww img "$HOME/.config/anarchy/Wallpapers/montagna.png"
-pkill awww
-
 echo "Setting up SDDM..."
 sudo cp "$HOME/.config/anarchy/Wallpapers/montagna.png" /usr/share/sddm/themes/silent/backgrounds/
 sudo sed -i "s/smoky.jpg/montagna.png/g" /usr/share/sddm/themes/silent/configs/default.conf
