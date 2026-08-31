@@ -21,7 +21,7 @@ output_path = '~/.config/yazi/theme.toml'
 
 [templates.ohmyposh]
 input_path = '~/.config/matugen/templates/ohmyposh.toml'
-output_path = '~/.config/ohmyposh/noss.toml'
+output_path = '~/.config/ohmyposh/anarchy.toml'
 
 [templates.nvim]
 input_path = '~/.config/matugen/templates/nvim-colors.json'

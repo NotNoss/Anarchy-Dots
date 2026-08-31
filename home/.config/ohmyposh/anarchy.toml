@@ -6,25 +6,25 @@
 # pulls in the prompt design via `extends`.
 
 version = 3
-extends = '~/.config/ohmyposh/noss-theme.toml'
+extends = '~/.config/ohmyposh/anarchy-theme.toml'
 
 [palette]
   # Material You roles from Matugen
-  primary            = '#ffb3ae'
-  on_primary         = '#571d1c'
-  primary_container  = '#733331'
-  secondary          = '#e7bdba'
-  tertiary           = '#e2c28c'
+  primary            = '#a6c8ff'
+  on_primary         = '#01315e'
+  primary_container  = '#224876'
+  secondary          = '#bcc7dc'
+  tertiary           = '#dabde2'
   error              = '#ffb4ab'
-  surface            = '#1a1111'
-  on_surface         = '#f1dedd'
-  on_surface_variant = '#d8c2c0'
+  surface            = '#111318'
+  on_surface         = '#e1e2e9'
+  on_surface_variant = '#c3c6cf'
 
   # Semantic aliases used by noss-theme.toml
-  blue   = '#ffb3ae'
+  blue   = '#a6c8ff'
   red    = '#ffb4ab'
-  green  = '#e2c28c'
-  yellow = '#e7bdba'
-  black  = '#1a1111'
-  white  = '#f1dedd'
-  muted  = '#d8c2c0'
+  green  = '#dabde2'
+  yellow = '#bcc7dc'
+  black  = '#111318'
+  white  = '#e1e2e9'
+  muted  = '#c3c6cf'
