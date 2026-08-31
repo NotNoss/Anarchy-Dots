@@ -2,7 +2,7 @@ pragma Singleton
 import QtQuick
 
 QtObject {
-    readonly property string fontFamily: "Firacode Nerd Font"
+    readonly property string fontFamily: "RedHatDisplay Nerd Font"
     readonly property string iconFontFamily: "Material Symbols Rounded"
 
     

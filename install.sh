@@ -69,8 +69,11 @@ stow -t "$HOME" .
 
 cd "$HOME"
 
-echo "Setting shell and changing wallpaper"
+echo "Setting shell..."
 chsh -s $(which zsh)
-"$HOME/.config/quickshell/scripts/change-wallpaper.sh" "$HOME/.config/anarchy/Wallpapers/montagna.png"
+
+echo "Installing fonts..."
+sudo cp "$HOME/.config/anarchy/dots/fonts/*" /usr/share/fonts/
+fc-cache -f -v
 
 echo "Done. Everything should be setup now"
