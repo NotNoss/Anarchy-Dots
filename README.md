@@ -5,59 +5,61 @@ Welcome to Anarchy Dots, this is my custom Hyprland dotfiles that I've tried to 
 ![General screenshot that shows off fastfetch, yazi and neovim](./assets/general_screenshot.jpg)
 
 ### Features
-    - Ready built neovim config
-    - Easy installation
-    - Update system
-    - Material themes based on your wallpapers
-    - Neovim and Tmux integration
-    - Quickshell for custom applications
-    - True keyboard first design
+* Ready built neovim config
+* Easy installation
+* Update system
+* Material themes based on your wallpapers
+* Neovim and Tmux integration
+* Quickshell for custom applications
+* True keyboard first design
 
 <details>
-    <summary>Application Selector</summary>
-    
-    You can access the application launcher by pressing "Super+D", search for the application you want by using "/" and navigate the list with j (down) k (up) and enter (select)
+<summary>Application Selector</summary>
 
-    ![Screenshot showing off application selector](./assets/application_selector.jpg)
-    
+You can access the application launcher by pressing "Super+D", search for the application you want by using "/" and navigate the list with j (down) k (up) and enter (select)
+
+![Screenshot showing off application selector](./assets/application_selector.jpg)
+
 </details>
 
 <details>
-    <summary>Hyprland Keybind Cheatsheet</summary>
-    
-    You can access the cheatsheet by pressing "Super+Alt+K", search for the keybinds you want by using "/" and navigate the list with j (down) and k (up). All these keybinds are for hyprland specifically
+<summary>Hyprland Keybind Cheatsheet</summary>
 
-    ![Screenshot showing off the hyprland keybind cheatsheet](./assets/keybind_screenshot.jpg)
-    
+You can access the cheatsheet by pressing "Super+Alt+K", search for the keybinds you want by using "/" and navigate the list with j (down) and k (up). All these keybinds are for hyprland specifically
+
+![Screenshot showing off the hyprland keybind cheatsheet](./assets/keybind_screenshot.jpg)
+
 </details>
 
 <details>
-    <summary>Multiple bars</summary>
-    
-    There are two bars to choose from with quickshell that can be chosen by navigating to "~/.config/quicksell/shell.qml" and change "import Pillbar" to "inport Fullbar"
+<summary>Multiple bars</summary>
 
-    ![Screenshot showing off the quickshell pill bar](./assets/pill_bar.jpg)
-    ![Screenshot showing off the quickshell pill bar](./assets/full_bar.jpg)
-    
+There are two bars to choose from with quickshell that can be chosen by navigating to "~/.config/quicksell/shell.qml" and change "import Pillbar" to "inport Fullbar"
+
+![Screenshot showing off the quickshell pill bar](./assets/pill_bar.jpg)
+
+![Screenshot showing off the quickshell pill bar](./assets/full_bar.jpg)
+
 </details>
 
 <details>
-    <summary>Notifications</summary>
-    
-    The notification system is ran by quickshell. You can access the notification center by pressing "Super+N", pressing "a" will clear all notifications. Navigate using j (down) and k (up). Clear individual notifications by hovering it and pressing "c". Expand notification groups with enter.
+<summary>Notifications</summary>
 
-    ![Screenshot showing off the notificaton popup](./assets/notification_popup.jpg)
-    ![Screenshot showing off the notification center](./assets/notification_center.jpg)
-    
+The notification system is ran by quickshell. You can access the notification center by pressing "Super+N", pressing "a" will clear all notifications. Navigate using j (down) and k (up). Clear individual notifications by hovering it and pressing "c". Expand notification groups with enter.
+
+![Screenshot showing off the notificaton popup](./assets/notification_popup.jpg)
+
+![Screenshot showing off the notification center](./assets/notification_center.jpg)
+
 </details>
 
 <details>
-    <summary>Calendar App</summary>
-    
-    The calendar app is a quickshell app that was definitely not ~~stolen~~ _borrowed_ from [ML4W](https://github.com/mylinuxforwork/dotfiles) and can be accessed by either "Super+CTRL+C" or by clicking the date/time at the top
-    
-    ![Screenshot showing off the calendar app](./assets/calendar_app.jpg)
-    
+<summary>Calendar App</summary>
+
+The calendar app is a quickshell app that was definitely not ~~stolen~~ _borrowed_ from [ML4W](https://github.com/mylinuxforwork/dotfiles) and can be accessed by either "Super+CTRL+C" or by clicking the date/time at the top
+
+![Screenshot showing off the calendar app](./assets/calendar_app.jpg)
+
 </details>
 
 ## Installation Steps
