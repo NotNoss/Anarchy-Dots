@@ -58,7 +58,7 @@ sudo pacman -S --needed --noconfirm "${packages[@]}"
 yay -S --needed --noconfirm "${aur_packages[@]}"
 
 echo "Creating dotfiles directories..."
-mkdir -p "$HOME/.config/anarchy/.cache/"
+mkdir -p "$HOME/.config/anarchy/cache/"
 
 echo "Cloning github repo..."
 cd "$HOME/.config/anarchy/"
