@@ -91,3 +91,5 @@ esac
 if [[ "$TERM_PROGRAM" == "ghostty" ]]; then
 	export TERM=xterm-256color
 fi
+
+[ -f "$HOME/.config/anarchy/custom.zsh" ] && source "$HOME/.config/anarchy/custom.zsh"
