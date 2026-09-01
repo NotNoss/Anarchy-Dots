@@ -10,6 +10,8 @@ update_anarchy() {
   echo "Updating Anarchy..."
   cd "$dotfiles"
 
+  cp "$HOME/.zshrc" "$HOME/.zshrc.bak"
+
   git pull --rebase --autostash
 
   cd "$dotfiles/home"
@@ -22,6 +24,8 @@ update_anarchy() {
 
   pkill qs
   qs &
+
+  echo "Anarchy is now up to date. If you have any issues with any customizations to .zshrc, place your customizations from .zshrc.bak into your .zshrc file"
 }
 
 check_updates() {
