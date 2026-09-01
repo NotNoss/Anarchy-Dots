@@ -3,11 +3,8 @@ ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local.share}/zinit/zinit.git"
 
 export PATH=$PATH:$HOME/.local/bin
 export PATH=$PATH:$HOME/.cargo/bin
-export GOROOT=/usr/lib/go
-export GOPATH=$HOME/go
-export PATH=$GOPATH/bin:$GOROOT/bin:$HOME/.local/bin:$PATH:
+export PATH=$PATH:$HOME/.config/anarchy/scripts
 export EDITOR="nvim"
-export HYPRSHOT_DIR="$HOME/Pictures/Screenshots"
 
 # Download Zinit
 if [ ! -d "$ZINIT_HOME" ]; then

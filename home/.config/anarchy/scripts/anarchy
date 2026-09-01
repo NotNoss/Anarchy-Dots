@@ -1,8 +1,13 @@
 #!/bin/bash
 
+dotfiles="$HOME/.config/anarchy/dots"
+
+anarchy_notify() {
+  notify-send -i "$HOME/.config/anarchy/dots/Anarchy-Logo.png" -a "Anarchy" $1 $2
+}
+
 update_anarchy() {
   echo "Updating Anarchy..."
-  dotfiles="$HOME/.config/anarchy/dots"
   cd "$dotfiles"
 
   git pull --rebase --autostash
@@ -10,15 +15,35 @@ update_anarchy() {
   cd "$dotfiles/home"
   stow -R -t "$HOME" .
 
+  sudo pacman -S --needed --noconfirm - <"$HOME/.config/anarchy/dots/pkglist"
+  yay -S --needed --noconfirm - <"$HOME/.config/anarchy/dots/aurlist"
+
   hyprctl reload 2>/dev/null || true
 
   pkill qs
   qs &
 }
 
+check_updates() {
+  git fetch --quiet
+  local=$(git rev-parse @)
+  remote=$(git rev-parse @{u})
+
+  if [ "$local" = "$remote" ]; then
+    echo "Up to date"
+  else
+    anarchy_notify "Update Available" "You have pending updates. Run the command anarchy update to update to the latest version"
+  fi
+}
+
 case "$1" in
-  update)
-    update_anarchy;;
-  *)
-    echo "Unknown arguments";;
+update)
+  update_anarchy
+  ;;
+check_update)
+  check_updates
+  ;;
+*)
+  echo "Unknown arguments"
+  ;;
 esac

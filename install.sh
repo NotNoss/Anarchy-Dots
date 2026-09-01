@@ -31,6 +31,7 @@ packages=(
   git
   base-devel
   fzf
+  fastfetch
 )
 
 aur_packages=(
