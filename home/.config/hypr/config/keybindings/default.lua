@@ -1,5 +1,5 @@
 local mainMod = "SUPER"
-local launchPrefix = "uwsm app -- " -- if you are not using UWSM, make this empty (e.g. "")
+local launchPrefix = "" -- if you are not using UWSM, make this empty (e.g. "")
 
 ---------------------------
 ---- WINDOW MANAGEMENT ----
@@ -13,9 +13,21 @@ hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen(), { description = "Toggle f
 hl.bind(mainMod .. " + Y", hl.dsp.layout("togglesplit"), { description = "Toggle split" })
 
 -- Screenshot
-hl.bind(mainMod .. " + S", hl.dsp.exec_cmd("~/.config/hypr/scripts/screenshot.sh region"), { description = "Take region screenshot" })
-hl.bind(mainMod .. " + CONTROL + S", hl.dsp.exec_cmd("~/.config/hypr/scripts/screenshot.sh monitor"), { description = "Take a screenshot of focused monitor" })
-hl.bind(mainMod .. " + SHIFT + S", hl.dsp.exec_cmd("~/.config/hypr/scripts/screenshot.sh window"), { description = "Take a screenshot of focused window" })
+hl.bind(
+	mainMod .. " + S",
+	hl.dsp.exec_cmd("~/.config/hypr/scripts/screenshot.sh region"),
+	{ description = "Take region screenshot" }
+)
+hl.bind(
+	mainMod .. " + CONTROL + S",
+	hl.dsp.exec_cmd("~/.config/hypr/scripts/screenshot.sh monitor"),
+	{ description = "Take a screenshot of focused monitor" }
+)
+hl.bind(
+	mainMod .. " + SHIFT + S",
+	hl.dsp.exec_cmd("~/.config/hypr/scripts/screenshot.sh window"),
+	{ description = "Take a screenshot of focused window" }
+)
 
 -- Window resize
 local left = { x = -20, y = 0, relative = true }
@@ -42,24 +54,28 @@ hl.bind(mainMod .. " + SHIFT + H", hl.dsp.window.move({ direction = "l" }), { de
 hl.bind(mainMod .. " + SHIFT + J", hl.dsp.window.move({ direction = "d" }), { description = "Move window down" })
 
 for i = 1, 10 do
-    local key = i % 10
-    hl.bind(mainMod .. " + " .. key, hl.dsp.focus({ workspace = i }), { description = "Focus on workspace" })
-    hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }), "Move window to workspace")
+	local key = i % 10
+	hl.bind(mainMod .. " + " .. key, hl.dsp.focus({ workspace = i }), { description = "Focus on workspace" })
+	hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }), "Move window to workspace")
 end
 
 -- Zoom
 local function zoomfunction(value)
-    local zoomvalue = hl.get_config("cursor:zoom_factor")
-    if (zoomvalue + value) > 3.0 then
-        hl.config({ cursor = { zoom_factor = 3.0 } })
-    elseif (zoomvalue + value) < 1.0 then
-        hl.config({ cursor = { zoom_factor = 1.0 } })
-    else
-        hl.config({ cursor = { zoom_factor = zoomvalue + value } })
-    end
+	local zoomvalue = hl.get_config("cursor:zoom_factor")
+	if (zoomvalue + value) > 3.0 then
+		hl.config({ cursor = { zoom_factor = 3.0 } })
+	elseif (zoomvalue + value) < 1.0 then
+		hl.config({ cursor = { zoom_factor = 1.0 } })
+	else
+		hl.config({ cursor = { zoom_factor = zoomvalue + value } })
+	end
 end
-hl.bind(mainMod .. " + SHIFT + M", function() zoomfunction(-0.3) end, { repeating = true}, { description = "Zoom out" })
-hl.bind(mainMod .. " + SHIFT + P", function() zoomfunction(0.3) end, { repeating = true }, { description = "Zoom in" })
+hl.bind(mainMod .. " + SHIFT + M", function()
+	zoomfunction(-0.3)
+end, { repeating = true }, { description = "Zoom out" })
+hl.bind(mainMod .. " + SHIFT + P", function()
+	zoomfunction(0.3)
+end, { repeating = true }, { description = "Zoom in" })
 
 ------------------
 ---- LAUNCHER ----
@@ -70,12 +86,28 @@ hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(launchPrefix .. FILE_MANAGER), { desc
 hl.bind(mainMod .. " + SHIFT + E", hl.dsp.exec_cmd(launchPrefix .. EDITOR), { description = "Open text editor" })
 hl.bind(mainMod .. " + C", hl.dsp.exec_cmd(launchPrefix .. CALCULATOR), { description = "Launch Calculator" })
 hl.bind(mainMod .. " + B", hl.dsp.exec_cmd(launchPrefix .. BROWSER), { description = "Launch browser" })
-hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("qs ipc call notifications toggle"), { description = "Launch notification center" })
-hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("qs ipc call wallpaper toggle"), { description = "Launch wallpaper selecton" })
+hl.bind(
+	mainMod .. " + N",
+	hl.dsp.exec_cmd("qs ipc call notifications toggle"),
+	{ description = "Launch notification center" }
+)
+hl.bind(
+	mainMod .. " + W",
+	hl.dsp.exec_cmd("qs ipc call wallpaper toggle"),
+	{ description = "Launch wallpaper selecton" }
+)
 hl.bind(mainMod .. " + P", hl.dsp.exec_cmd("qs ipc call power toggle"), { description = "Launch power menu" })
 hl.bind(mainMod .. " + D", hl.dsp.exec_cmd("qs ipc call launcher toggle"), { description = "Launch app launcher" })
-hl.bind(mainMod .. " + ALT + K", hl.dsp.exec_cmd("qs ipc call keybinds toggle"), { description = "Launch keybind cheatsheet" })
-hl.bind(mainMod .. " + SHIFT + C", hl.dsp.exec_cmd("qs ipc call calendar toggle"), { description = "Launch calendar app" })
+hl.bind(
+	mainMod .. " + ALT + K",
+	hl.dsp.exec_cmd("qs ipc call keybinds toggle"),
+	{ description = "Launch keybind cheatsheet" }
+)
+hl.bind(
+	mainMod .. " + SHIFT + C",
+	hl.dsp.exec_cmd("qs ipc call calendar toggle"),
+	{ description = "Launch calendar app" }
+)
 
 -------------------------------
 ---- WORKSPACES & MONITORS ----
