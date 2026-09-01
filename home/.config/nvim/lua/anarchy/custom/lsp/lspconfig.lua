@@ -78,49 +78,5 @@ return {
 		vim.lsp.config("*", {
 			capabilities = require("cmp_nvim_lsp").default_capabilities(),
 		})
-
-		vim.lsp.config("gopls", {
-			settings = {
-				gopls = {
-					completeUnimported = true,
-					usePlaceholders = true,
-					analyses = {
-						unusedparams = true,
-					},
-				},
-			},
-		})
-
-		vim.lsp.config("lua_ls", {
-			settings = {
-				Lua = {
-					-- make the language server recognize "vim" global
-					diagnostics = {
-						globals = { "vim" },
-					},
-					completion = {
-						callSnippet = "Replace",
-					},
-				},
-			},
-		})
-
-		-- bundle_path must point at the mason-installed package; the shell
-		-- defaults to `pwsh` (PowerShell Core) via nvim-lspconfig's own default
-		vim.lsp.config("powershell_es", {
-			bundle_path = vim.fn.stdpath("data") .. "/mason/packages/powershell-editor-services",
-		})
-
-		-- tailwind-tools.nvim's inline document-color feature needs
-		-- colorProvider.dynamicRegistration; it would normally set this
-		-- itself via its own (deprecated) server setup, which we've
-		-- disabled in plugins/tailwind-tools.lua (server.override = false)
-		vim.lsp.config("tailwindcss", {
-			capabilities = {
-				textDocument = {
-					colorProvider = { dynamicRegistration = true },
-				},
-			},
-		})
 	end,
 }

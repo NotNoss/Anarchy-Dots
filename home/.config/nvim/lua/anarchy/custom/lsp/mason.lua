@@ -28,26 +28,11 @@ return {
 			-- list of servers for mason to install (lspconfig server names,
 			-- not mason package names)
 			ensure_installed = {
-				"gopls",
-				"lua_ls",
-				"bashls",
-				"ts_ls",
-				"html",
-				"cssls",
-				"tailwindcss",
-				"clangd",
-				"jsonls",
-				"powershell_es",
 			},
 		})
 
 		mason_tool_installer.setup({
 			ensure_installed = {
-				"goimports",
-				"shfmt",
-				"stylua",
-				"prettier",
-				"jq",
 			},
 		})
 	end,
