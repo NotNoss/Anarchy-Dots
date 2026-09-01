@@ -77,6 +77,9 @@ echo "Installing fonts..."
 sudo cp "$HOME/.config/anarchy/dots/fonts/*" /usr/share/fonts/
 fc-cache -f -v
 
+echo "Configuring tmux..."
+git clone https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
+
 echo "Setting up SDDM..."
 sudo cp "$HOME/.config/anarchy/Wallpapers/montagna.png" /usr/share/sddm/themes/silent/backgrounds/
 sudo sed -i "s/smoky.jpg/montagna.png/g" /usr/share/sddm/themes/silent/configs/default.conf
