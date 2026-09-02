@@ -1,2 +1,2 @@
-local name = "custom.lua"
+local name = "default.lua"
 load_variant(name, "monitors")

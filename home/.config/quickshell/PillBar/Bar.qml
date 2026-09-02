@@ -94,6 +94,8 @@ PanelWindow {
         anchors.rightMargin: 15
         spacing: 8
 
+        // SystemTray {}
+
         // Show connected wifi network
         // Pill {
         //     icon: "network_wifi"

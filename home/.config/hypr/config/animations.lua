@@ -1,2 +1,2 @@
-local name = "animations-end4.lua"
+local name = "default"
 load_variant(name, "animations")
