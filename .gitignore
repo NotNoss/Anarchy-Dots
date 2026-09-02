@@ -3,6 +3,7 @@ home/.config/hypr/custom.lua
 home/.config/ghostty/themes/matugen
 home/.config/hypr/colors.lua
 home/.config/nvim/colors.json
+home/.config/nvim/lazy-lock.json
 home/.config/ohmyposh/anarchy.toml
 home/.config/quickshell/Theme/Theme.qml
 home/.config/tmux/generated.conf
