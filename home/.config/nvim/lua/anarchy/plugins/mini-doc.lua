@@ -1,7 +1,7 @@
 local ai = require("mini.ai")
 
 return {
-	"echasnovski/mini.nvim",
+	"nvim-mini/mini.nvim",
 	version = "*",
 	require("mini.doc").setup(),
 }

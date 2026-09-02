@@ -12,7 +12,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup(
-	{ { import = "anarchy.plugins" }, { import = "anarchy.plugins.lsp" }, { import = "anarchy.custom" } },
+	{ { import = "anarchy.plugins" }, { import = "anarchy.custom.lsp" }, { import = "anarchy.custom" } },
 	{
 		checker = {
 			enabled = true,

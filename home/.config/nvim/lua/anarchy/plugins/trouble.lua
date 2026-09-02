@@ -1,6 +1,6 @@
 return {
 	"folke/trouble.nvim",
-	dependencies = { "echasnovski/mini.nvim" },
+	dependencies = { "nvim-mini/mini.nvim" },
 	keys = {
 		{ "<leader>xx", "<cmd>TroubleToggle<CR>", desc = "open/close trouble list" },
 		{ "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<CR>", desc = "open trouble workspace diagnostics" },

@@ -64,10 +64,6 @@ map("n", "<leader>mh", function() tfm_open("split") end, { desc = "tfm horizonta
 map("n", "<leader>mv", function() tfm_open("vsplit") end, { desc = "tfm vertical split" })
 map("n", "<leader>mt", function() tfm_open("tabedit") end, { desc = "tfm new tab" })
 
--- Code Companion
-map("n", "<leader>cc", "<cmd>CodeCompanionChat Toggle<CR>", { desc = "Code Companion Chat Toggle" })
-map("n", "<leader>ca", "<cmd>CodeCompanionActions<CR>", { desc = "Code Companion Actions Open" })
-
 -- Indent
 map("v", "<", "<gv", { desc = "indent left" })
 map("v", ">", ">gv", { desc = "indent right" })
@@ -87,39 +83,3 @@ map("n", "<leader>kjn", "<cmd>lua require('kulala').jump_previous()<CR>", { desc
 
 -- Namu
 map("n", "<leader>nm", "<cmd>Namu symbols<CR>", { desc = "Open symbols picker" })
-
--- Obsidian
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = "markdown",
-	callback = function()
-		map("n", "<leader>nn", "<cmd>ObsidianToday<CR>", { desc = "Open daily note for today", buffer = true })
-		map("n", "<leader>nnt", "<cmd>ObsidianTomorrow<CR>", { desc = "Open daily note for tomorrow", buffer = true })
-		map("n", "<leader>nny", "<cmd>ObsidianYesterday<CR>", { desc = "Open daily note for yesterday", buffer = true })
-		map(
-			"n",
-			"<leader>tc",
-			"<cmd>ObsidianToggleCheckbox<CR>",
-			{ desc = "Cycle through checkbox options", buffer = true }
-		)
-		map(
-			"n",
-			"<leader>bl",
-			"<cmd>ObsidianBacklinks<CR>",
-			{ desc = "Get a list of links to this file", buffer = true }
-		)
-		map("n", "<leader>fl", "<cmd>ObsidianFolllowLink<CR>", { desc = "Follow Obsidian Link", buffer = true })
-		map(
-			"n",
-			"<leader>flv",
-			"<cmd>ObsidianFolllowLink vsplit<CR>",
-			{ desc = "Follow Obsidian Link Vertical Split", buffer = true }
-		)
-		map(
-			"n",
-			"<leader>flh",
-			"<cmd>ObsidianFolllowLink hsplit<CR>",
-			{ desc = "Follow Obsidian Link Horizontal Split", buffer = true }
-		)
-		map("n", "<leader>toc", "<cmd>ObsidianTOC<CR>", { desc = "Obsidian Table of Contents", buffer = true })
-	end,
-})

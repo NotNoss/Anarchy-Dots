@@ -23,7 +23,7 @@ opt.smartcase = true
 
 opt.cursorline = true
 
--- turn on termguicolors for tokyonight colorscheme to work
+-- turn on termguicolors
 opt.termguicolors = true
 opt.background = "dark"
 opt.signcolumn = "yes"
