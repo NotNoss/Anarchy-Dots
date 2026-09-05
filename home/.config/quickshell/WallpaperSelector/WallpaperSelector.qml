@@ -38,11 +38,8 @@ Scope {
             anchors.fill: parent
             radius: 10
             color: Qt.rgba(Theme.background.r, Theme.background.g, Theme.background.b, 0.72)
-
-            GradientBorder {
-                radius: parent.radius
-                borderWidth: 2
-            }
+            border.width: 2
+            border.color: Theme.primary
         }
 
         ColumnLayout {
@@ -65,11 +62,8 @@ Scope {
                 color: Theme.background
                 radius: 6
                 anchors.margins: 3
-
-                GradientBorder {
-                    radius: parent.radius
-                    borderWidth: 3
-                }
+                border.width: 2
+                border.color: Theme.primary
 
                 TextInput {
                     id: pathInput
@@ -111,11 +105,8 @@ Scope {
                     z: 10
                     color: "transparent"
                     radius: 4
-
-                    GradientBorder {
-                        radius: parent.radius
-                        borderWidth: 3
-                    }
+                    border.width: 2
+                    border.color: Theme.primary
                 }
 
                 delegate: Image {

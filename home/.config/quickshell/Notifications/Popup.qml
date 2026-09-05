@@ -52,14 +52,8 @@ Scope {
                     Layout.preferredHeight: layout.implicitHeight + 20
                     radius: 8
                     color: Qt.rgba(Theme.background.r, Theme.background.g, Theme.background.b, 0.72)
-                    border.width: card.critical ? 3 : 0
-                    border.color: Theme.error_container
-
-                    GradientBorder {
-                        visible: !card.critical
-                        radius: parent.radius
-                        borderWidth: 3
-                    }
+                    border.width: card.critical ? 3 : 2
+                    border.color: card.critical ? Theme.error_container : Theme.primary
 
                     RowLayout {
                         id: layout

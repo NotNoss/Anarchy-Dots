@@ -31,11 +31,9 @@ Scope {
             anchors.fill: parent
             radius: root.implicitHeight / 2
             color: Qt.rgba(Theme.background.r, Theme.background.g, Theme.background.b, 0.72)
+            border.width: 2
+            border.color: Theme.primary
 
-            GradientBorder {
-                radius: parent.radius
-                borderWidth: 2
-            }
         }
 
         RowLayout {

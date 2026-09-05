@@ -25,11 +25,8 @@ Scope {
             anchors.fill: parent
             radius: 10
             color: Qt.rgba(Theme.background.r, Theme.background.g, Theme.background.b, 0.72)
-
-            GradientBorder {
-                radius: parent.radius
-                borderWidth: 2
-            }
+            border.width: 2
+            border.color: Theme.primary
         }
 
         ColumnLayout {
@@ -234,14 +231,12 @@ Scope {
                                 color: groupDelegate.isSelected
                                        ? Theme.surface_container_high
                                        : Qt.rgba(Theme.background.r, Theme.background.g, Theme.background.b, 0.72)
-                                border.width: groupDelegate.critical ? (groupDelegate.isSelected ? 3 : 2) : 0
-                                border.color: Theme.error_container
-
-                                GradientBorder {
-                                    visible: !groupDelegate.critical
-                                    radius: parent.radius
-                                    borderWidth: groupDelegate.isSelected ? 3 : 2
-                                }
+                                border.width: groupDelegate.isSelected ? 3 : 2
+                                border.color: groupDelegate.critical
+                                              ? Theme.error_container
+                                              : (groupDelegate.isSelected
+                                                 ? Theme.primary
+                                                 : Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.28))
 
                                 MouseArea {
                                     anchors.fill: parent
@@ -388,14 +383,12 @@ Scope {
                                     color: itemCard.selected
                                            ? Theme.surface_container_high
                                            : Qt.rgba(Theme.background.r, Theme.background.g, Theme.background.b, 0.72)
-                                    border.width: itemCard.itemCritical ? (itemCard.selected ? 3 : 2) : 0
-                                    border.color: Theme.error_container
-
-                                    GradientBorder {
-                                        visible: !itemCard.itemCritical
-                                        radius: parent.radius
-                                        borderWidth: itemCard.selected ? 3 : 1
-                                    }
+                                    border.width: itemCard.selected ? 3 : 2
+                                    border.color: itemCard.itemCritical
+                                                  ? Theme.error_container
+                                                  : (itemCard.selected
+                                                     ? Theme.primary
+                                                     : Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.28))
 
                                     MouseArea {
                                         anchors.fill: parent

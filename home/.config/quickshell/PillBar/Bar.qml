@@ -94,7 +94,8 @@ PanelWindow {
         anchors.rightMargin: 15
         spacing: 8
 
-        // SystemTray {}
+        // Show system tray (StatusNotifier) items
+        SystemTray {}
 
         // Show connected wifi network
         // Pill {

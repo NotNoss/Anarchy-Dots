@@ -138,11 +138,8 @@ PanelWindow {
         background: Rectangle {
             color: "transparent"
             radius: 8
-
-            GradientBorder {
-                radius: parent.radius
-                borderWidth: 1
-            }
+            border.width: 2
+            border.color: Theme.primary
         }
         contentItem: Text {
             text: parent.text
@@ -253,11 +250,8 @@ PanelWindow {
             anchors.fill: parent
             radius: 10
             color: Qt.rgba(Theme.background.r, Theme.background.g, Theme.background.b, 0.72)
-
-            GradientBorder {
-                radius: parent.radius
-                borderWidth: 2
-            }
+            border.width: 2
+            border.color: Theme.primary
         }
 
         ColumnLayout {

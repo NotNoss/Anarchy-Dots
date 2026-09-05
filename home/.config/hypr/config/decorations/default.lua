@@ -9,8 +9,9 @@ hl.config({
 		resize_on_border = true,
 		col = {
 			active_border = {
-				colors = { on_primary_container, on_primary },
-				angle = 45,
+				colors = { primary },
+				-- colors = { primary },
+				-- angle = 45,
 			},
 			inactive_border = background,
 		},
